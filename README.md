@@ -53,19 +53,18 @@ Using Metal directly for rendering.
 
 ### Main sketch process
 ```SampleSketch.swift
-import Metal
 import SwiftyCreatives
 
 final class SampleSketch: Sketch {
-    override func draw(encoder: MTLRenderCommandEncoder) {
+    override func draw(encoder: SCEncoder) {
         let count = 20
         for i in 0...count {
-            color(1, Float(i) / 20, 0, 1, encoder: encoder)
-            pushMatrix(encoder: encoder)
-            rotateY(Float.pi * 2 / Float(count) * Float(i), encoder: encoder)
-            translate(10, 0, 0, encoder: encoder)
-            box(0, 0, 0, 1, 1, 1, encoder: encoder)
-            popMatrix(encoder: encoder)
+            color(1, Float(i) / 20, 0, 1)
+            pushMatrix()
+            rotateY(Float.pi * 2 / Float(count) * Float(i))
+            translate(10, 0, 0)
+            box(0, 0, 0, 1, 1, 1)
+            popMatrix()
         }
     }
 }

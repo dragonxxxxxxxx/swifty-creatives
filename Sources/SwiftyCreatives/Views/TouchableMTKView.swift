@@ -56,6 +56,7 @@ public class TouchableMTKView<CameraConfig: CameraConfigBase>: MTKView {
     }
     
     #if os(macOS)
+    override public var acceptsFirstResponder: Bool { return true }
     public override func mouseDown(with event: NSEvent) {
         renderer.drawProcess.mouseDown(with: event, camera: renderer.camera, viewFrame: self.superview!.frame)
     }
@@ -97,7 +98,6 @@ public class TouchableMTKView<CameraConfig: CameraConfigBase>: MTKView {
         let delta = recognizer.translation(in: self)
         renderer.drawProcess.onScroll(delta: delta, camera: renderer.camera, view: self, gestureRecognizer: recognizer)
     }
-    
     public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         renderer.drawProcess.touchesBegan(touches, with: event, camera: renderer.camera, view: self)
     }

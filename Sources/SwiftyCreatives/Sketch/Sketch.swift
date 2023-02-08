@@ -5,8 +5,6 @@
 //  Created by Yuki Kuwashima on 2023/01/05.
 //
 
-import Metal
-
 #if os(macOS)
 import AppKit
 #elseif os(iOS)
@@ -16,6 +14,8 @@ import UIKit
 open class Sketch: SketchBase {
     
     var customMatrix: [f4x4] = [f4x4.createIdentity()]
+    
+    private(set) var privateEncoder: SCEncoder?
     
     public var LIGHTS: [Light] = [Light(position: f3(0, 10, 0), color: f3.one, brightness: 1, ambientIntensity: 1, diffuseIntensity: 1, specularIntensity: 50)]
     
@@ -28,15 +28,14 @@ open class Sketch: SketchBase {
     
     @MainActor
     open func update(camera: some MainCameraBase) {}
+    open func draw(encoder: SCEncoder) {}
     
-    @MainActor
-    open func draw(encoder: MTLRenderCommandEncoder) {}
-    
-    public func beforeDraw(encoder: MTLRenderCommandEncoder) {
+    public func beforeDraw(encoder: SCEncoder) {
         self.customMatrix = [f4x4.createIdentity()]
+        self.privateEncoder = encoder
     }
     
-    open func updateAndDrawLight(encoder: MTLRenderCommandEncoder) {
+    open func updateAndDrawLight(encoder: SCEncoder) {
         encoder.setFragmentBytes([LIGHTS.count], length: MemoryLayout<Int>.stride, index: 2)
         encoder.setFragmentBytes(LIGHTS, length: Light.memorySize * LIGHTS.count, index: 3)
     }
