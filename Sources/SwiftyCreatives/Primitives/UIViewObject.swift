@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  UIViewObject.swift
 //  
 //
 //  Created by Yuki Kuwashima on 2022/12/27.
@@ -74,7 +74,7 @@ public class UIViewObject: HitTestablePrimitive<UIViewObjectInfo> {
         encoder.setVertexBytes(_mPos, length: f3.memorySize, index: 1)
         encoder.setVertexBytes(_mRot, length: f3.memorySize, index: 2)
         encoder.setVertexBytes(_mScale, length: f3.memorySize, index: 3)
-        encoder.setFragmentBytes(self.hasTexture, length: MemoryLayout<Bool>.stride, index: 6)
+        encoder.setFragmentBytes(self.hasTexture, length: Bool.memorySize, index: 6)
         encoder.setVertexBytes(_color, length: f4.memorySize, index: 10)
         
         encoder.setVertexBytes(_color, length: f4.memorySize, index: 10)

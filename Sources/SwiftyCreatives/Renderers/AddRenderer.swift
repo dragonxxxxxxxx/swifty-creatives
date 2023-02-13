@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  AddRenderer.swift
 //  
 //
 //  Created by Yuki Kuwashima on 2022/12/16.
@@ -64,14 +64,21 @@ public class AddRenderer<
         guard let drawable = view.currentDrawable, let renderPassDescriptor = view.currentRenderPassDescriptor else {
             return
         }
+        
+        if DrawConfig.clearOnUpdate {
+            renderPassDescriptor.colorAttachments[0].loadAction = .clear
+        } else {
+            renderPassDescriptor.colorAttachments[0].loadAction = .load
+        }
+        
         let commandBuffer = ShaderCore.commandQueue.makeCommandBuffer()
         
         let renderCommandEncoder = commandBuffer?.makeRenderCommandEncoder(descriptor: renderPassDescriptor)
         
         Self.setDefaultBuffers(encoder: renderCommandEncoder!)
         
-        renderCommandEncoder?.setVertexBytes(camera.perspectiveMatrix, length: MemoryLayout<f4x4>.stride, index: 4)
-        renderCommandEncoder?.setVertexBytes(camera.mainMatrix, length: MemoryLayout<f4x4>.stride, index: 5)
+        renderCommandEncoder?.setVertexBytes(camera.perspectiveMatrix, length: f4x4.memorySize, index: 4)
+        renderCommandEncoder?.setVertexBytes(camera.mainMatrix, length: f4x4.memorySize, index: 5)
         
         let cameraPosBuffer = ShaderCore.device.makeBuffer(bytes: [camera.getCameraPos()], length: f3.memorySize)
         renderCommandEncoder?.setVertexBuffer(cameraPosBuffer, offset: 0, index: 6)

@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  NormalShader.metal
 //
 //
 //  Created by Yuki Kuwashima on 2022/12/16.
@@ -46,6 +46,8 @@ fragment half4 normal_fragment (RasterizerData rd [[stage_in]],
                                 const device Light *lights [[ buffer(3) ]],
                                 const device FrameUniforms_HasTexture &uniformHasTexture [[ buffer(6) ]],
                                 const device FrameUniforms_IsActiveToLight &isActiveToLight [[ buffer(7) ]],
+                                const device FrameUniforms_FogDensity &fogDensity [[ buffer(16) ]],
+                                const device FrameUniforms_FogColor &fogColor [[ buffer(17) ]],
                                 texture2d<half, access::sample> tex [[ texture(0) ]]) {
     
     half4 resultColor = half4(0, 0, 0, 0);
@@ -64,5 +66,11 @@ fragment half4 normal_fragment (RasterizerData rd [[stage_in]],
         float3 phongIntensity = calculatePhongIntensity(rd, material, lightCount, lights);
         resultColor = half4(float4(resultColor) * float4(phongIntensity, 1));
     }
+    
+    resultColor = half4(createFog(rd.position.z / rd.position.w,
+                                    float4(resultColor),
+                                    fogDensity.value,
+                                    fogColor.value));
+    
     return resultColor;
 }

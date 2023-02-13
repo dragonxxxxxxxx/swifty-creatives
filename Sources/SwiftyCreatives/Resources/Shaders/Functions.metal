@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  Functions.metal
 //  
 //
 //  Created by Yuki Kuwashima on 2023/01/05.
@@ -88,4 +88,9 @@ inline float4x4 createModelMatrix(
     float4x4 modelMatrix = uniformCustomMatrix.value * transpose(modelScaleMatrix * modelRotateXMatrix * modelRotateYMatrix * modelRotateZMatrix * modelTransMatrix);
     
     return modelMatrix;
+}
+
+inline float4 createFog(float distance, float4 color, float density, float4 fogColor) {
+    float fog = 1.0 - clamp(exp(-density * distance), 0.0, 1.0);
+    return mix(color, fogColor, fog);
 }

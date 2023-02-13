@@ -1,5 +1,5 @@
 //
-//  Simple_Types.swift
+//  Types.metal
 //  
 //
 //  Created by Yuki Kuwashima on 2022/12/16.
@@ -42,6 +42,14 @@ struct FrameUniforms_IsActiveToLight {
 
 struct FrameUniforms_CustomMatrix {
     float4x4 value;
+};
+
+struct FrameUniforms_FogDensity {
+    float value;
+};
+
+struct FrameUniforms_FogColor {
+    float4 value;
 };
 
 struct RasterizerData {
