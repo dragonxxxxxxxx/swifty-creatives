@@ -28,8 +28,14 @@ open class Sketch: SketchBase {
     public init() {}
     
     // MARK: functions
+    
+    @MainActor
     open func setupCamera(camera: some MainCameraBase) {}
+    
+    @MainActor
     open func update(camera: some MainCameraBase) {}
+    
+    @MainActor
     open func draw(encoder: SCEncoder) {}
     
     public func beforeDraw(encoder: SCEncoder) {
