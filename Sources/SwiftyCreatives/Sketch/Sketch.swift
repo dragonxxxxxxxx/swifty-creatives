@@ -28,14 +28,8 @@ open class Sketch: SketchBase {
     public init() {}
     
     // MARK: functions
-    
-    @MainActor
     open func setupCamera(camera: some MainCameraBase) {}
-    
-    @MainActor
     open func update(camera: some MainCameraBase) {}
-    
-    @MainActor
     open func draw(encoder: SCEncoder) {}
     
     public func beforeDraw(encoder: SCEncoder) {
@@ -63,17 +57,9 @@ open class Sketch: SketchBase {
     
     #if os(iOS)
     open func onScroll(delta: CGPoint, camera: some MainCameraBase, view: UIView, gestureRecognizer: UIPanGestureRecognizer) {}
-    
-    @MainActor
     open func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?, camera: some MainCameraBase, view: UIView) {}
-    
-    @MainActor
     open func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?, camera: some MainCameraBase, view: UIView) {}
-    
-    @MainActor
     open func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?, camera: some MainCameraBase, view: UIView) {}
-    
-    @MainActor
     open func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?, camera: some MainCameraBase, view: UIView) {}
     #endif
 }

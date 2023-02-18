@@ -40,6 +40,8 @@ public struct ImgInfo: PrimitiveInfo {
 
 public class Img: HitTestablePrimitive<ImgInfo> {
     
+    public var cacheCustomMatrix: f4x4 = f4x4.createIdentity()
+    
     public required init() {
         super.init()
         hasTexture = [true]
@@ -70,5 +72,19 @@ public class Img: HitTestablePrimitive<ImgInfo> {
         encoder.setFragmentBytes([true], length: Bool.memorySize, index: 6)
         encoder.setFragmentTexture(self.texture, index: 0)
         encoder.drawPrimitives(type: ImgInfo.primitiveType, vertexStart: 0, vertexCount: ImgInfo.vertices.count)
+    }
+    
+    public func drawWidthCache(_ encoder: SCEncoder, customMatrix: f4x4) {
+        encoder.setVertexBytes(ImgInfo.vertices, length: ImgInfo.vertices.count * f3.memorySize, index: 0)
+        encoder.setVertexBytes(_mPos, length: f3.memorySize, index: 1)
+        encoder.setVertexBytes(_mRot, length: f3.memorySize, index: 2)
+        encoder.setVertexBytes(_mScale, length: f3.memorySize, index: 3)
+        encoder.setVertexBytes(_color, length: f4.memorySize, index: 10)
+        encoder.setVertexBytes(ImgInfo.uvs, length: ImgInfo.uvs.count * f2.memorySize, index: 11)
+        encoder.setVertexBytes(ImgInfo.normals, length: ImgInfo.normals.count * f3.memorySize, index: 12)
+        encoder.setFragmentBytes([true], length: Bool.memorySize, index: 6)
+        encoder.setFragmentTexture(self.texture, index: 0)
+        encoder.drawPrimitives(type: ImgInfo.primitiveType, vertexStart: 0, vertexCount: ImgInfo.vertices.count)
+        self.cacheCustomMatrix = customMatrix
     }
 }
